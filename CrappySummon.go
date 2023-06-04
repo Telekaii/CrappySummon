@@ -120,6 +120,8 @@ func generateNewItem(item1, item2 string) string {
 }
 
 func endGame(mixedItems, solution []string) {
+	var dump string
+	
 	fmt.Println("Ran out of items to mix. Now, let's see if your worst nightmare spawns..")
 	bar2 := progressbar.Default(100)
 	for i := 0; i < 100; i++ {
@@ -128,7 +130,9 @@ func endGame(mixedItems, solution []string) {
 	}
 	if areArraysEqual(mixedItems, solution) {
 		fmt.Println("CORRECT SOLUTION!")
+		fmt.Scanln(&dump)
 	} else {
 		fmt.Println("Noob")
+		fmt.Scanln(&dump)
 	}
 }
