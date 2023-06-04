@@ -30,9 +30,9 @@ jobs:
     - name: Upload a Linux Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        path: /workspaces/CrappySummon/crappysummon
+        path: ./crappysummon
 
     - name : Upload a Windows Artifact
       uses: actions/upload-artifact@v3.1.2
       with:
-        path: /workspaces/CrappySummon/crappysummon.exe
+        path: ./crappysummon.exe
