@@ -3,9 +3,11 @@ package main
 import (
 	"fmt"
 	"log"
+	"strings"
 	"time"
 
 	ui "github.com/manifoldco/promptui"
+	"github.com/schollz/progressbar/v3"
 )
 
 func remove(s []string, r string) []string {
@@ -17,24 +19,62 @@ func remove(s []string, r string) []string {
 	return s
 }
 
-func main() {
-	isGameOver := false
-	inventory := []string{"Stick", "Computer", "Pen", "Mug", "Wallet", "Apple", "Sunglasses", "Notebook", "Vase", "Spoon"}
-	tempInventory := inventory
+func areArraysEqual(arr1, arr2 []string) bool {
+	if len(arr1) != len(arr2) {
+		return false
+	}
 
-	fmt.Println("Welcome to ̶ ̶M̶a̶g̶i̶c̶S̶u̶m̶m̶o̶n̶  CrappySummon!\nThis game is all about mixing items, to summon random things! The main objective is summoning the.. 😳")
+	freq := make(map[string]int)
+
+	for _, item := range arr1 {
+		freq[item]++
+	}
+
+	for _, item := range arr2 {
+		freq[item]--
+	}
+
+	for _, count := range freq {
+		if count != 0 {
+			return false
+		}
+	}
+
+	return true
+}
+
+func main() {
+	items := []string{"Stick", "Additives", "Clackers", "Scissors", "Solvents", "Paint", "Pole", "Money", "Buckets", "Cows"}
+	mixedItems := make([]string, 0)
+	solution := []string{"Stick-Paint", "Additives-Solvents", "Clackers-Scissors", "Pole-Money"}
+
+	fmt.Println("Welcome to ̶ ̶M̶a̶g̶i̶c̶S̶u̶m̶m̶o̶n̶  CrappySummon!\nThis game is all about mixing items, to summon your worst nightmare. Which is the.. 😳")
 	fmt.Println("Would you like to start now?")
 	startGame := yesNo()
 
 	if startGame == "Yes" {
 		fmt.Println("Starting game.. Might take a few seconds..")
-		time.Sleep(2e+9)
+		bar1 := progressbar.Default(100)
+		for i := 0; i < 100; i++ {
+			bar1.Add(1)
+			time.Sleep(30 * time.Millisecond)
+		}
 		fmt.Print("\033[H\033[2J")
-		for !isGameOver {
-			itemDeleted := mixing(inventory)
-			inventory = remove(inventory, itemDeleted)
-			actualMixing(inventory, tempInventory)
-			fmt.Println(inventory)
+		for len(items) > 0 {
+			choiceOne := mixing(items)
+			items = remove(items, choiceOne)
+			choiceTwo := mixing(items)
+			items = remove(items, choiceTwo)
+			fmt.Print("\033[H\033[2J")
+
+			if len(items) >= 2 {
+				newItem := generateNewItem(choiceOne, choiceTwo)
+				mixedItems = append(mixedItems, newItem)
+			}
+
+			if len(items) == 0 {
+				endGame(mixedItems, solution)
+			}
 		}
 	} else {
 		time.Sleep(1e+9)
@@ -73,6 +113,20 @@ func mixing(items []string) string {
 	return result
 }
 
-func actualMixing(inventory []string, tempInventory []string) {
-	fmt.Println(".")
+func generateNewItem(item1, item2 string) string {
+	return strings.Join([]string{item1, item2}, "-")
+}
+
+func endGame(mixedItems, solution []string) {
+	fmt.Println("Ran out of items to mix. Now, let's see if your worst nightmare spawns..")
+	bar2 := progressbar.Default(100)
+	for i := 0; i < 100; i++ {
+		bar2.Add(1)
+		time.Sleep(50 * time.Millisecond)
+	}
+	if areArraysEqual(mixedItems, solution) {
+		fmt.Println("CORRECT SOLUTION!")
+	} else {
+		fmt.Println("Noob")
+	}
 }
