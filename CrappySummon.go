@@ -46,7 +46,7 @@ func areArraysEqual(arr1, arr2 []string) bool {
 func main() {
 	items := []string{"Stick", "Additives", "Clackers", "Scissors", "Solvents", "Paint", "Pole", "Money", "Buckets", "Cows"}
 	mixedItems := make([]string, 0)
-	solution := []string{"Stick-Paint", "Additives-Solvents", "Clackers-Scissors", "Pole-Money"}
+	solution := []string{"Stick-Paint", "Additives-Solvents", "Clackers-Scissors", "Pole-Money", "Buckets-Cows"}
 
 	fmt.Println("Welcome to ̶ ̶M̶a̶g̶i̶c̶S̶u̶m̶m̶o̶n̶  CrappySummon!\nThis game is all about mixing items, to summon your worst nightmare. Which is the.. 😳")
 	fmt.Println("Would you like to start now?")
@@ -73,6 +73,8 @@ func main() {
 			}
 
 			if len(items) == 0 {
+				newItem := generateNewItem(choiceOne, choiceTwo)
+				mixedItems = append(mixedItems, newItem)
 				endGame(mixedItems, solution)
 			}
 		}
