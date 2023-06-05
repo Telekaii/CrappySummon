@@ -19,7 +19,7 @@ func main() {
 	solutionReverse := []string{"Paint-Stick", "Solvents-Additives", "Scissors-Clackers", "Money-Pole", "Cows-Buckets"}
 	yesNo := []string{"YES", "NO"}
 
-	fmt.Println("Welcome to ̶ ̶M̶a̶g̶i̶c̶S̶u̶m̶m̶o̶n̶  CrappySummon!\nThis game is all about mixing items, to summon your worst nightmare. Which is the.. 😳")
+	fmt.Println("Welcome to CrappySummon!\nThis game is all about mixing items, to summon your worst nightmare. Which is the.. 😳")
 	fmt.Println("Would you like to start now?")
 	startGame := prompt("Please select [YES/NO]", yesNo)
 
@@ -34,21 +34,25 @@ func main() {
 			items = remove(items, choiceTwo)
 			clearScreen()
 			if len(items) >= 2 {
-				newItem := generateNewItem(choiceOne, choiceTwo)
-				mixedItems = append(mixedItems, newItem)
+				mixedItems = addItem(choiceOne, choiceTwo, mixedItems)
 			}
 
 			if len(items) == 0 {
-				newItem := generateNewItem(choiceOne, choiceTwo)
-				mixedItems = append(mixedItems, newItem)
+				mixedItems = addItem(choiceOne, choiceTwo, mixedItems)
 				endGame(mixedItems, solution, solutionReverse)
 			}
 		}
 	} else {
-		time.Sleep(1e+9)
+		time.Sleep(10 * time.Millisecond)
 		fmt.Println("Quitting the game.")
 		return
 	}
+}
+
+func addItem(choiceOne string, choiceTwo string, mixedItems []string) []string {
+	newItem := generateNewItem(choiceOne, choiceTwo)
+	mixedItems = append(mixedItems, newItem)
+	return mixedItems
 }
 
 func prompt(label string, items []string) string {
@@ -82,7 +86,7 @@ func generateNewItem(item1, item2 string) string {
 func endGame(mixedItems, solution, solutionReverse []string) {
 	var dump string
 
-	fmt.Println("Ran out of items to mix. Now, let's see if your worst nightmare spawns..")
+	fmt.Println("Spawning your worst nightmare.. ")
 	loadingBar(5)
 
 	isCorrect := false
@@ -94,10 +98,11 @@ func endGame(mixedItems, solution, solutionReverse []string) {
 	}
 
 	if isCorrect {
-		fmt.Println("CORRECT SOLUTION!")
+		fmt.Println("W- what's happening? T- there is your worst nightmare! The.. 😳.. Monster..")
+		fmt.Println("Game Still WIP")
 		fmt.Scanln(&dump)
 	} else {
-		fmt.Println("Noob")
+		fmt.Println("Aww, you didn't get the correct combination of item. You lost.")
 		fmt.Scanln(&dump)
 	}
 }
