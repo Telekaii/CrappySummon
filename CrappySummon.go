@@ -120,10 +120,7 @@ func contains(arr []string, item string) bool {
 }
 
 func clearScreen() {
-	cmd := exec.Command("cmd", "/c", "cls")
-	if os.Getenv("OS") != "Windows" {
-		cmd = exec.Command("clear")
-	}
+	cmd := exec.Command("clear")
 	cmd.Stdout = os.Stdout
 	cmd.Run()
 }
