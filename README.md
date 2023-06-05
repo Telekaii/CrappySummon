@@ -4,7 +4,7 @@ Still WIP. No plans to turn this into a GUI. **CLI ftw**. (Although if I find th
 
 
 ### **If you want to download this game;**
-- UNIX Operating System Recommended. Completely fine if you don't have it though.
+- UNIX(-like) Operating System Recommended. Completely fine if you don't have it though.
 - PLEASE Install binaries from [Actions](https://github.com/Telekaii/CrappySummon/actions).
 
 ---
