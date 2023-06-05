@@ -1,11 +1,18 @@
 # CrappySummon!
-A game idea I had that I never finished due to me not being able to Problem-Solve and just became Yandere Dev.  
+A game idea that I had a long time ago that I never finished due to me not being able to Problem-Solve and just became Yandere Dev.  
 Still WIP. No plans to turn this into a GUI. **CLI ftw**. (Although if I find the motivation to learn GUI, expect GUI update.)
 
 
 ### **If you want to download this game;**
-- UNIX(-like) Operating System Recommended. Completely fine if you don't have it though.
+- No Windows Binaries because Windows bad for CLI. Build it on your own if you want to play on Windows.
 - PLEASE Install binaries from [Actions](https://github.com/Telekaii/CrappySummon/actions).
+
+## BUILDING
+**Requirements: Go** (I'm not joking that's literally it)   
+Steps:
+- Clone or Download the repository
+- Open Terminal and do the command ```go build ./...```
+- If you're on a UNIX-like Operating System, you can mess around with GOOS and GOARCH environment variable to build in various different Operating System and Architecture.
 
 ---
 
