@@ -4,7 +4,7 @@ Still WIP. No plans to turn this into a GUI. **CLI ftw**. (Although if I find th
 
 
 ### **If you want to download this game;**
-- No Windows Binaries because Windows bad for CLI. Build it on your own if you want to play on Windows.
+- No Windows Binaries because Windows bad for CLI.
 - PLEASE Install binaries from [Actions](https://github.com/Telekaii/CrappySummon/actions).
 
 ## BUILDING
