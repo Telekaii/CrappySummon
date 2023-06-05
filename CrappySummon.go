@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
+	"os/exec"
 	"strings"
 	"time"
 
@@ -10,68 +12,27 @@ import (
 	"github.com/schollz/progressbar/v3"
 )
 
-func remove(s []string, r string) []string {
-	for i, v := range s {
-		if v == r {
-			return append(s[:i], s[i+1:]...)
-		}
-	}
-	return s
-}
-
-//func areArraysEqual(arr1, arr2 []string) bool {
-//if len(arr1) != len(arr2) {
-//return false
-//}
-
-//freq := make(map[string]int)
-
-//for _, item := range arr1 {
-//freq[item]++
-//}
-
-//for _, item := range arr2 {
-//freq[item]--
-//}
-
-//for _, count := range freq {
-//if count != 0 {
-//return false
-//}
-//}
-
-//return true
-//}
-
-//func isSolutionCorrect(mixedItems, solution, solutionReverse []string) bool {
-//return areArraysEqual(mixedItems, solution) || areArraysEqual(mixedItems, solutionReverse)
-//}
-
 func main() {
 	items := []string{"Stick", "Additives", "Clackers", "Scissors", "Solvents", "Paint", "Pole", "Money", "Buckets", "Cows"}
 	mixedItems := make([]string, 0)
 	solution := []string{"Stick-Paint", "Additives-Solvents", "Clackers-Scissors", "Pole-Money", "Buckets-Cows"}
 	solutionReverse := []string{"Paint-Stick", "Solvents-Additives", "Scissors-Clackers", "Money-Pole", "Cows-Buckets"}
+	yesNo := []string{"YES", "NO"}
 
 	fmt.Println("Welcome to ̶ ̶M̶a̶g̶i̶c̶S̶u̶m̶m̶o̶n̶  CrappySummon!\nThis game is all about mixing items, to summon your worst nightmare. Which is the.. 😳")
 	fmt.Println("Would you like to start now?")
-	startGame := yesNo()
+	startGame := prompt("Please select [YES/NO]", yesNo)
 
-	if startGame == "Yes" {
+	if startGame == "YES" {
 		fmt.Println("Starting game.. Might take a few seconds..")
-		bar1 := progressbar.Default(100)
-		for i := 0; i < 100; i++ {
-			bar1.Add(1)
-			time.Sleep(30 * time.Millisecond)
-		}
-		fmt.Print("\033[H\033[2J")
+		loadingBar(3)
+		clearScreen()
 		for len(items) > 0 {
-			choiceOne := mixing(items)
+			choiceOne := prompt("Mixing Items", items)
 			items = remove(items, choiceOne)
-			choiceTwo := mixing(items)
+			choiceTwo := prompt("Mixing Items", items)
 			items = remove(items, choiceTwo)
-			fmt.Print("\033[H\033[2J")
-
+			clearScreen()
 			if len(items) >= 2 {
 				newItem := generateNewItem(choiceOne, choiceTwo)
 				mixedItems = append(mixedItems, newItem)
@@ -90,24 +51,9 @@ func main() {
 	}
 }
 
-func yesNo() string {
+func prompt(label string, items []string) string {
 	prompt := ui.Select{
-		Label: "Select Yes or No",
-		Items: []string{"Yes", "No"},
-	}
-
-	_, result, err := prompt.Run()
-
-	if err != nil {
-		log.Fatalf("Prompt failed %v\n", err)
-	}
-
-	return result
-}
-
-func mixing(items []string) string {
-	prompt := ui.Select{
-		Label: "Mix Items",
+		Label: label,
 		Items: items,
 	}
 
@@ -120,6 +66,15 @@ func mixing(items []string) string {
 	return result
 }
 
+func remove(s []string, r string) []string {
+	for i, v := range s {
+		if v == r {
+			return append(s[:i], s[i+1:]...)
+		}
+	}
+	return s
+}
+
 func generateNewItem(item1, item2 string) string {
 	return strings.Join([]string{item1, item2}, "-")
 }
@@ -128,11 +83,7 @@ func endGame(mixedItems, solution, solutionReverse []string) {
 	var dump string
 
 	fmt.Println("Ran out of items to mix. Now, let's see if your worst nightmare spawns..")
-	bar2 := progressbar.Default(100)
-	for i := 0; i < 100; i++ {
-		bar2.Add(1)
-		time.Sleep(50 * time.Millisecond)
-	}
+	loadingBar(5)
 
 	isCorrect := false
 	for _, item := range mixedItems {
@@ -151,6 +102,14 @@ func endGame(mixedItems, solution, solutionReverse []string) {
 	}
 }
 
+func loadingBar(second int) {
+	b := progressbar.Default(100)
+	for i := 0; i < 100; i++ {
+		b.Add(1)
+		time.Sleep(50 * time.Millisecond)
+	}
+}
+
 func contains(arr []string, item string) bool {
 	for _, elem := range arr {
 		if elem == item {
@@ -158,4 +117,16 @@ func contains(arr []string, item string) bool {
 		}
 	}
 	return false
+}
+
+func clearScreen() {
+	if os.Getenv("OS") == "Windows" {
+		cmd := exec.Command("cmd", "/c", "cls")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	} else {
+		cmd := exec.Command("clear")
+		cmd.Stdout = os.Stdout
+		cmd.Run()
+	}
 }
