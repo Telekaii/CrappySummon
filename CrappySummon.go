@@ -20,31 +20,31 @@ func remove(s []string, r string) []string {
 }
 
 //func areArraysEqual(arr1, arr2 []string) bool {
-	//if len(arr1) != len(arr2) {
-		//return false
-	//}
+//if len(arr1) != len(arr2) {
+//return false
+//}
 
-	//freq := make(map[string]int)
+//freq := make(map[string]int)
 
-	//for _, item := range arr1 {
-		//freq[item]++
-	//}
+//for _, item := range arr1 {
+//freq[item]++
+//}
 
-	//for _, item := range arr2 {
-		//freq[item]--
-	//}
+//for _, item := range arr2 {
+//freq[item]--
+//}
 
-	//for _, count := range freq {
-		//if count != 0 {
-			//return false
-		//}
-	//}
+//for _, count := range freq {
+//if count != 0 {
+//return false
+//}
+//}
 
-	//return true
+//return true
 //}
 
 //func isSolutionCorrect(mixedItems, solution, solutionReverse []string) bool {
-	//return areArraysEqual(mixedItems, solution) || areArraysEqual(mixedItems, solutionReverse)
+//return areArraysEqual(mixedItems, solution) || areArraysEqual(mixedItems, solutionReverse)
 //}
 
 func main() {
@@ -134,15 +134,14 @@ func endGame(mixedItems, solution, solutionReverse []string) {
 		time.Sleep(50 * time.Millisecond)
 	}
 
-	isCorrect := true
-	for i := 0; i < len(mixedItems); i++ {
-		if i < len(solution) && mixedItems[i] != solution[i] {
-			if i < len(solutionReverse) && mixedItems[i] != solutionReverse[i] {
-				isCorrect = false
-				break
-			}
+	isCorrect := false
+	for _, item := range mixedItems {
+		if contains(solution, item) || contains(solutionReverse, item) {
+			isCorrect = true
+			break
 		}
 	}
+
 	if isCorrect {
 		fmt.Println("CORRECT SOLUTION!")
 		fmt.Scanln(&dump)
@@ -150,5 +149,13 @@ func endGame(mixedItems, solution, solutionReverse []string) {
 		fmt.Println("Noob")
 		fmt.Scanln(&dump)
 	}
+}
 
+func contains(arr []string, item string) bool {
+	for _, elem := range arr {
+		if elem == item {
+			return true
+		}
+	}
+	return false
 }
