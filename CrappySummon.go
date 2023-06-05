@@ -53,22 +53,15 @@ func main() {
 
 func addItem(choiceOne, choiceTwo string, mixedItems []string) []string {
 	newItem := generateNewItem(choiceOne, choiceTwo)
-	mixedItems = append(mixedItems, newItem)
-	return mixedItems
+	return append(mixedItems, newItem)
 }
 
 func prompt(label string, items []string) string {
-	prompt := ui.Select{
-		Label: label,
-		Items: items,
-	}
-
+	prompt := ui.Select{Label: label, Items: items}
 	_, result, err := prompt.Run()
-
 	if err != nil {
 		log.Fatalf("Prompt failed: %v\n", err)
 	}
-
 	return result
 }
 
@@ -127,10 +120,8 @@ func contains(arr []string, item string) bool {
 }
 
 func clearScreen() {
-	var cmd *exec.Cmd
-	if os.Getenv("OS") == "Windows" {
-		cmd = exec.Command("cmd", "/c", "cls")
-	} else {
+	cmd := exec.Command("cmd", "/c", "cls")
+	if os.Getenv("OS") != "Windows" {
 		cmd = exec.Command("clear")
 	}
 	cmd.Stdout = os.Stdout
