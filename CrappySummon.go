@@ -19,34 +19,39 @@ func remove(s []string, r string) []string {
 	return s
 }
 
-func areArraysEqual(arr1, arr2 []string) bool {
-	if len(arr1) != len(arr2) {
-		return false
-	}
+//func areArraysEqual(arr1, arr2 []string) bool {
+	//if len(arr1) != len(arr2) {
+		//return false
+	//}
 
-	freq := make(map[string]int)
+	//freq := make(map[string]int)
 
-	for _, item := range arr1 {
-		freq[item]++
-	}
+	//for _, item := range arr1 {
+		//freq[item]++
+	//}
 
-	for _, item := range arr2 {
-		freq[item]--
-	}
+	//for _, item := range arr2 {
+		//freq[item]--
+	//}
 
-	for _, count := range freq {
-		if count != 0 {
-			return false
-		}
-	}
+	//for _, count := range freq {
+		//if count != 0 {
+			//return false
+		//}
+	//}
 
-	return true
-}
+	//return true
+//}
+
+//func isSolutionCorrect(mixedItems, solution, solutionReverse []string) bool {
+	//return areArraysEqual(mixedItems, solution) || areArraysEqual(mixedItems, solutionReverse)
+//}
 
 func main() {
 	items := []string{"Stick", "Additives", "Clackers", "Scissors", "Solvents", "Paint", "Pole", "Money", "Buckets", "Cows"}
 	mixedItems := make([]string, 0)
 	solution := []string{"Stick-Paint", "Additives-Solvents", "Clackers-Scissors", "Pole-Money", "Buckets-Cows"}
+	solutionReverse := []string{"Paint-Stick", "Solvents-Additives", "Scissors-Clackers", "Money-Pole", "Cows-Buckets"}
 
 	fmt.Println("Welcome to ̶ ̶M̶a̶g̶i̶c̶S̶u̶m̶m̶o̶n̶  CrappySummon!\nThis game is all about mixing items, to summon your worst nightmare. Which is the.. 😳")
 	fmt.Println("Would you like to start now?")
@@ -75,7 +80,7 @@ func main() {
 			if len(items) == 0 {
 				newItem := generateNewItem(choiceOne, choiceTwo)
 				mixedItems = append(mixedItems, newItem)
-				endGame(mixedItems, solution)
+				endGame(mixedItems, solution, solutionReverse)
 			}
 		}
 	} else {
@@ -119,20 +124,31 @@ func generateNewItem(item1, item2 string) string {
 	return strings.Join([]string{item1, item2}, "-")
 }
 
-func endGame(mixedItems, solution []string) {
+func endGame(mixedItems, solution, solutionReverse []string) {
 	var dump string
-	
+
 	fmt.Println("Ran out of items to mix. Now, let's see if your worst nightmare spawns..")
 	bar2 := progressbar.Default(100)
 	for i := 0; i < 100; i++ {
 		bar2.Add(1)
 		time.Sleep(50 * time.Millisecond)
 	}
-	if areArraysEqual(mixedItems, solution) {
+
+	isCorrect := true
+	for i := 0; i < len(mixedItems); i++ {
+		if i < len(solution) && mixedItems[i] != solution[i] {
+			if i < len(solutionReverse) && mixedItems[i] != solutionReverse[i] {
+				isCorrect = false
+				break
+			}
+		}
+	}
+	if isCorrect {
 		fmt.Println("CORRECT SOLUTION!")
 		fmt.Scanln(&dump)
 	} else {
 		fmt.Println("Noob")
 		fmt.Scanln(&dump)
 	}
+
 }
